@@ -6,10 +6,7 @@ export default function Tube({ className, tube, onClick }) {
     >
       {tube?.map((color, index) => {
         return (
-          <div
-            key={index}
-            className={`${`bg-my-${color.name}`} h-1/6 w-full`}
-          ></div>
+          <div key={index} className={`${color.value} h-1/6 w-full`}></div>
         );
       })}
     </div>

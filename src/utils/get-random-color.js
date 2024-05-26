@@ -1,35 +1,35 @@
 const colors = [
   {
     name: "red",
-    hex: "#ff0000",
+    value: "bg-[#ff0000]",
   },
   {
     name: "orange",
-    hex: "#ff6600",
+    value: "bg-[#ff6600]",
   },
   {
     name: "yellow",
-    hex: "#fbfb00",
+    value: "bg-[#fbfb00]",
   },
   {
     name: "blue",
-    hex: "#006ca5",
+    value: "bg-[#006ca5]",
   },
   {
     name: "green",
-    hex: "#4acf50",
+    value: "bg-[#4acf50]",
   },
   {
     name: "pink",
-    hex: "#ff8fad",
+    value: "bg-[#ff8fad]",
   },
   {
     name: "purple",
-    hex: "#c154c1",
+    value: "bg-[#c154c1]",
   },
   {
     name: "pastel",
-    hex: "#fcf5c",
+    value: "bg-[#fcf5c1]",
   },
 ];
 
