@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Glass from "./components/glass";
 import getRandomColor from "./utils/get-random-color";
 import shuffleArray from "./utils/shuffle";
@@ -9,6 +9,7 @@ export default function App() {
   const [selectedGlassIndex, setSelectedGlassIndex] = useState(null);
   const [pouring, setPouring] = useState(null);
   const [moveTo, setMoveTo] = useState("");
+  const glassRef = useRef(null);
 
   function handleSetLiquid() {
     let result = [];
@@ -57,24 +58,29 @@ export default function App() {
     let targetIsOnTop = target <= 3;
     let result = "";
 
-    if (currentIsOnTop) {
-      current + 4;
-    } else if (targetIsOnTop) {
-      current - 4;
+    let newCurrent = current;
+    if (currentIsOnTop && !targetIsOnTop) {
+      newCurrent = current + 4;
+    } else if (!currentIsOnTop && targetIsOnTop) {
+      newCurrent = current - 4;
     }
 
-    result += current < target ? "rotate-90" : "-rotate-90";
+    result += newCurrent < target ? "rotate-90" : "-rotate-90";
 
     setMoveTo(result);
   }
 
   useEffect(() => {
     handleSetLiquid();
+    console.log(glassRef.current?.children);
   }, []);
 
   return (
     <main className="flex h-screen w-full items-end justify-center bg-black">
-      <div className="mb-5 grid w-10/12 grid-cols-4 gap-x-5 gap-y-12 md:w-4/12">
+      <div
+        ref={glassRef}
+        className="mb-5 grid w-10/12 grid-cols-4 gap-x-5 gap-y-12 md:w-4/12"
+      >
         {liquids.map((liquid, index) => {
           const isSelected = selectedGlassIndex == index;
           const isPouring = pouring == index;
