@@ -9,6 +9,7 @@ export default function App() {
   const [selectedGlassIndex, setSelectedGlassIndex] = useState(null);
   const [pouring, setPouring] = useState(null);
   const [moveTo, setMoveTo] = useState("");
+  const [glasses, setGlasses] = useState(null);
   const glassRef = useRef(null);
 
   function handleSetLiquid() {
@@ -39,7 +40,7 @@ export default function App() {
           liquids[index].push(lastIndex);
           setSelectedGlassIndex(null);
 
-          moveTube(selectedGlassIndex, index);
+          moveGlass(selectedGlassIndex, index);
           setPouring(selectedGlassIndex);
           setTimeout(() => {
             setPouring(null);
@@ -53,26 +54,51 @@ export default function App() {
     setSelectedGlassIndex(index);
   }
 
-  function moveTube(current, target) {
-    let currentIsOnTop = current <= 3;
-    let targetIsOnTop = target <= 3;
+  function moveGlass(current, target) {
+    const currentIsOnTop = current <= 3;
+    const targetIsOnTop = target <= 3;
+
     let result = "";
 
-    let newCurrent = current;
     if (currentIsOnTop && !targetIsOnTop) {
-      newCurrent = current + 4;
+      current += 4;
+      result += `translate-y-[50%] `;
     } else if (!currentIsOnTop && targetIsOnTop) {
-      newCurrent = current - 4;
+      current -= 4;
+      result += `-translate-y-[200%] `;
+    } else {
+      result += `-translate-y-[75%] `;
     }
 
-    result += newCurrent < target ? "rotate-90" : "-rotate-90";
+    const delta = Math.abs(target - current);
+    let offsetX;
+    switch (delta) {
+      case 1:
+        offsetX = -50;
+        break;
+      case 2:
+        offsetX = 100;
+        break;
+      case 3:
+        offsetX = 200;
+        break;
+    }
+
+    if (current < target) {
+      result += `rotate-90 translate-x-[${offsetX}%]`;
+    } else {
+      result += `-rotate-90 ${offsetX ? `-translate-x-[${offsetX}%]` : "translate-x-[200%]"}`;
+    }
 
     setMoveTo(result);
   }
 
   useEffect(() => {
     handleSetLiquid();
-    console.log(glassRef.current?.children);
+
+    if (glassRef.current) {
+      setGlasses([...glassRef.current.children]);
+    }
   }, []);
 
   return (
