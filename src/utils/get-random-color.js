@@ -9,7 +9,7 @@ const colors = [
   },
   {
     name: "yellow",
-    value: "bg-[#fbfb00]",
+    value: "bg-[#ffe800]",
   },
   {
     name: "blue",
