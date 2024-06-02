@@ -10,6 +10,18 @@ export default function App() {
   const [pouring, setPouring] = useState(null);
   const [moveTo, setMoveTo] = useState("");
 
+  function checkWin() {
+    let result = 0;
+    liquids.forEach((liquid) => {
+      const isFull = liquid.length == 6;
+      const isOneTypeColor = isFull && new Set(liquid).size == 1;
+      if (!isOneTypeColor) return;
+
+      result++;
+    });
+    return result == 7;
+  }
+
   function handleSetLiquid() {
     let result = [];
     for (let i = 0; i < liquids.length - 1; i++) {
@@ -109,6 +121,7 @@ export default function App() {
       }
     }
 
+    result += "z-10 ";
     setMoveTo(result);
   }
 
@@ -117,7 +130,14 @@ export default function App() {
   }, []);
 
   return (
-    <main className="flex h-screen w-full items-end justify-center bg-black">
+    <main className="flex h-screen w-full flex-col items-center justify-center bg-black">
+      <div className="mt-5 flex h-12 w-full justify-center">
+        <h1
+          className={`${checkWin() ? "block" : "hidden"} text-xl font-bold text-white`}
+        >
+          Congratulations You Win !!
+        </h1>
+      </div>
       <div className="mb-5 grid w-10/12 grid-cols-4 gap-x-5 gap-y-12 md:w-4/12">
         {liquids.map((liquid, index) => {
           const isSelected = selectedGlassIndex == index;
