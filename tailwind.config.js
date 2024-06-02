@@ -2,7 +2,12 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      translate: {
+        "1/2full": "150%",
+        "2full": "200%",
+      },
+    },
   },
   plugins: [],
 };

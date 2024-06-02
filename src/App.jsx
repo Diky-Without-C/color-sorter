@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Glass from "./components/glass";
 import getRandomColor from "./utils/get-random-color";
 import shuffleArray from "./utils/shuffle";
@@ -9,8 +9,6 @@ export default function App() {
   const [selectedGlassIndex, setSelectedGlassIndex] = useState(null);
   const [pouring, setPouring] = useState(null);
   const [moveTo, setMoveTo] = useState("");
-  const [glasses, setGlasses] = useState(null);
-  const glassRef = useRef(null);
 
   function handleSetLiquid() {
     let result = [];
@@ -30,22 +28,30 @@ export default function App() {
     setLiquids(result);
   }
 
+  function handleAnimation(current, target) {
+    moveGlass(current, target);
+    setPouring(current);
+    setTimeout(() => {
+      setPouring(null);
+    }, 500);
+  }
+
   function handleClick(index) {
     let isFull = liquids[index].length == 6;
 
+    if (selectedGlassIndex == index) {
+      setSelectedGlassIndex(null);
+      return;
+    }
+
     if (selectedGlassIndex != index) {
       if (!isFull) {
-        if (selectedGlassIndex !== null) {
+        if (typeof selectedGlassIndex == "number") {
           const lastIndex = liquids[selectedGlassIndex].pop();
           liquids[index].push(lastIndex);
           setSelectedGlassIndex(null);
 
-          moveGlass(selectedGlassIndex, index);
-          setPouring(selectedGlassIndex);
-          setTimeout(() => {
-            setPouring(null);
-          }, 500);
-
+          handleAnimation(selectedGlassIndex, index);
           return;
         }
       }
@@ -62,32 +68,45 @@ export default function App() {
 
     if (currentIsOnTop && !targetIsOnTop) {
       current += 4;
-      result += `translate-y-[50%] `;
+      result += `translate-y-1/2 `;
     } else if (!currentIsOnTop && targetIsOnTop) {
       current -= 4;
-      result += `-translate-y-[200%] `;
+      result += `-translate-y-2full `;
     } else {
-      result += `-translate-y-[75%] `;
+      result += `-translate-y-3/4 `;
     }
 
     const delta = Math.abs(target - current);
-    let offsetX;
-    switch (delta) {
-      case 1:
-        offsetX = -50;
-        break;
-      case 2:
-        offsetX = 100;
-        break;
-      case 3:
-        offsetX = 200;
-        break;
-    }
-
     if (current < target) {
-      result += `rotate-90 translate-x-[${offsetX}%]`;
+      result += `rotate-90 `;
+
+      switch (delta) {
+        case 1:
+          result += `-translate-x-1/3 `;
+          break;
+        case 2:
+          result += `translate-x-full `;
+          break;
+        case 3:
+          result += `translate-x-2full `;
+          break;
+      }
     } else {
-      result += `-rotate-90 ${offsetX ? `-translate-x-[${offsetX}%]` : "translate-x-[200%]"}`;
+      result += "-rotate-90 ";
+
+      switch (delta) {
+        case 1:
+          result += `translate-x-1/3 `;
+          break;
+        case 2:
+          result += `-translate-x-full `;
+          break;
+        case 3:
+          result += `-translate-x-2full `;
+          break;
+        default:
+          result += `translate-x-1/2full `;
+      }
     }
 
     setMoveTo(result);
@@ -95,18 +114,11 @@ export default function App() {
 
   useEffect(() => {
     handleSetLiquid();
-
-    if (glassRef.current) {
-      setGlasses([...glassRef.current.children]);
-    }
   }, []);
 
   return (
     <main className="flex h-screen w-full items-end justify-center bg-black">
-      <div
-        ref={glassRef}
-        className="mb-5 grid w-10/12 grid-cols-4 gap-x-5 gap-y-12 md:w-4/12"
-      >
+      <div className="mb-5 grid w-10/12 grid-cols-4 gap-x-5 gap-y-12 md:w-4/12">
         {liquids.map((liquid, index) => {
           const isSelected = selectedGlassIndex == index;
           const isPouring = pouring == index;
