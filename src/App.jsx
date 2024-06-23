@@ -131,7 +131,7 @@ export default function App() {
   }, []);
 
   return (
-    <main className="flex h-screen w-full flex-col items-center justify-center bg-black">
+    <main className="bg-re flex h-screen w-full flex-col items-center justify-center bg-black">
       <div className="mt-5 flex h-12 w-full justify-center">
         <h1
           className={`${checkWin() ? "opacity-100" : "opacity-0"} text-xl font-bold text-white`}
@@ -139,7 +139,7 @@ export default function App() {
           Congratulations You Win !!
         </h1>
       </div>
-      <div className="mb-5 grid w-10/12 grid-cols-4 gap-x-5 gap-y-12 md:w-4/12 xl:w-3/12">
+      <div className="mb-5 grid w-11/12 grid-cols-4 gap-x-5 gap-y-12 md:w-4/12 xl:w-3/12">
         {liquids.map((liquid, index) => {
           const isSelected = selectedGlassIndex == index;
           const isPouring = pouring == index;
@@ -156,6 +156,12 @@ export default function App() {
           }
         })}
       </div>
+      <button
+        onClick={handleSetLiquid}
+        className="h-10 w-20 rounded-lg bg-blue-600 text-lg text-white"
+      >
+        refresh
+      </button>
       {checkWin() && <Confetti />}
     </main>
   );
