@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Glass from "./components/glass";
 import getRandomColor from "./utils/get-random-color";
 import shuffleArray from "./utils/shuffle";
+import Confetti from "react-confetti";
 import "./services/global.css";
 
 export default function App() {
@@ -155,6 +156,7 @@ export default function App() {
           }
         })}
       </div>
+      {checkWin() && <Confetti />}
     </main>
   );
 }
