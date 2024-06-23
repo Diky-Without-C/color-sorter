@@ -134,7 +134,7 @@ export default function App() {
     <main className="flex h-screen w-full flex-col items-center justify-center bg-black">
       <div className="mt-5 flex h-12 w-full justify-center">
         <h1
-          className={`${checkWin() ? "block" : "hidden"} text-xl font-bold text-white`}
+          className={`${checkWin() ? "opacity-100" : "opacity-0"} text-xl font-bold text-white`}
         >
           Congratulations You Win !!
         </h1>
