@@ -139,7 +139,7 @@ export default function App() {
           Congratulations You Win !!
         </h1>
       </div>
-      <div className="mb-5 grid w-11/12 grid-cols-4 gap-x-5 gap-y-12 md:w-4/12 xl:w-3/12">
+      <div className="mb-5 grid w-11/12 scale-90 grid-cols-4 gap-x-5 gap-y-12 md:w-4/12 md:scale-100 xl:w-3/12">
         {liquids.map((liquid, index) => {
           const isSelected = selectedGlassIndex == index;
           const isPouring = pouring == index;
