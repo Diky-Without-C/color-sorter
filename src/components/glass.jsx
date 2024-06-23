@@ -5,7 +5,7 @@ export default function Glass({ className, liquid, onClick }) {
   return (
     <div
       {...{ onClick }}
-      className={`${className} relative flex h-52 w-20 flex-col items-center transition-all duration-300 ${isOneTypeColor && "pointer-events-none"}`}
+      className={`${className} relative flex h-52 w-20 cursor-pointer flex-col items-center transition-all duration-300 ${isOneTypeColor && "pointer-events-none"}`}
     >
       {isOneTypeColor && <GlassCap />}
       <div className="h-6 w-full translate-y-1.5 scale-[1.15] rounded-b-3xl rounded-t-lg border-2 border-white border-b-transparent"></div>
